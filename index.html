@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Home Decision OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #F7F4EF;
+  --card:   #FFFFFF;
+  --text:   #2C2820;
+  --muted:  #7A6E65;
+  --border: #E8DFD4;
+  --ibg:    #FAF7F3;
+  /* heybestea accents — used only on small elements */
+  --coral:  #D46B5A;
+  --olive:  #7A8C3C;
+  --lav:    #8E80BC;
+  --peach:  #D98060;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:14px;
+  line-height:1.45;
+  min-height:100vh;
+}
+
+/* ── HEADER ── */
+.app-header {
+  max-width:900px;
+  margin:0 auto;
+  padding:22px 20px 0;
+}
+.app-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(22px,4vw,30px);
+  font-weight:900;
+  letter-spacing:-0.3px;
+  color:var(--text);
+}
+.app-sub { font-size:12px; color:var(--muted); margin-top:2px; }
+
+/* ── TABS ── */
+.tabs {
+  display:flex;
+  border-bottom:1.5px solid var(--border);
+  max-width:900px;
+  margin:14px auto 0;
+  padding:0 20px;
+  gap:2px;
+}
+.tab {
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  color:var(--muted);
+  padding:9px 14px;
+  cursor:pointer;
+  border:none;
+  background:none;
+  border-bottom:2.5px solid transparent;
+  margin-bottom:-1.5px;
+  transition:color .15s,border-color .15s;
+}
+.tab:hover { color:var(--text); }
+.tab.active { color:var(--coral); border-bottom-color:var(--coral); }
+
+/* ── TAB CONTENT ── */
+.tab-content { display:none; max-width:900px; margin:0 auto; padding:18px 20px 60px; }
+.tab-content.active { display:block; }
+
+/* ── CARDS ── */
+.card {
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:16px;
+  padding:16px 18px;
+  margin-bottom:12px;
+}
+
+/* ── GRIDS ── */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.g5 { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+@media(max-width:680px){ .g3,.g4,.g5 { grid-template-columns:1fr 1fr; } }
+@media(max-width:440px){ .g2,.g3,.g4,.g5 { grid-template-columns:1fr; } }
+
+/* ── FIELDS ── */
+.field { display:flex; flex-direction:column; gap:4px; margin-bottom:8px; }
+.field label {
+  font-size:10px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted);
+}
+input[type=text], input[type=number], select, textarea {
+  font-family:'DM Sans',sans-serif;
+  font-size:13px; color:var(--text);
+  background:var(--ibg);
+  border:1.5px solid var(--border);
+  border-radius:9px;
+  padding:8px 10px; width:100%;
+  outline:none; transition:border-color .15s;
+}
+input:focus, select:focus, textarea:focus { border-color:var(--coral); }
+input::placeholder, textarea::placeholder { color:#B8B0A6; }
+textarea { resize:vertical; min-height:56px; }
+
+/* ── BUTTONS ── */
+.btn {
+  font-family:'DM Sans',sans-serif; font-weight:700;
+  font-size:13px; padding:8px 16px;
+  border-radius:9px; border:none;
+  cursor:pointer; transition:opacity .15s;
+  white-space:nowrap;
+}
+.btn:hover { opacity:.84; }
+.btn-coral { background:var(--coral); color:#fff; }
+.btn-olive { background:var(--olive); color:#fff; }
+.btn-lav   { background:var(--lav);   color:#fff; }
+.btn-ghost {
+  background:transparent;
+  border:1.5px solid var(--border);
+  color:var(--muted);
+}
+
+/* ── BADGES ── */
+.badge {
+  display:inline-block; font-size:11px; font-weight:700;
+  padding:2px 9px; border-radius:20px; letter-spacing:.03em;
+}
+.b-coral  { background:#FAE8E4; color:var(--coral); }
+.b-olive  { background:#EBF0DA; color:var(--olive); }
+.b-lav    { background:#EDE8F5; color:var(--lav); }
+.b-peach  { background:#FBF0E8; color:var(--peach); }
+.b-muted  { background:#F0EDE8; color:var(--muted); }
+
+/* ── SECTION HEADER ── */
+.sec-head {
+  display:flex; justify-content:space-between;
+  align-items:center; margin-bottom:14px; gap:8px;
+}
+.sec-title {
+  font-family:'Playfair Display',serif;
+  font-size:17px; font-weight:700;
+}
+.sec-rule {
+  font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.1em;
+  color:var(--coral); margin:14px 0 8px;
+  padding-bottom:5px;
+  border-bottom:1.5px dashed #F0C0B8;
+}
+
+/* ── DASHBOARD STAT BLOCKS ── */
+.stat-block {
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  padding:14px 16px;
+}
+.stat-lbl {
+  font-size:10px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:7px;
+}
+.stat-block input,
+.stat-block textarea {
+  font-family:'Playfair Display',serif;
+  font-size:17px; font-weight:700;
+  color:var(--text); background:transparent;
+  border:none; border-bottom:1.5px dashed var(--border);
+  border-radius:0; padding:2px 0; width:100%;
+  outline:none; transition:border-color .15s;
+}
+.stat-block input:focus,
+.stat-block textarea:focus { border-bottom-color:var(--coral); }
+.stat-block textarea {
+  font-size:13px; min-height:44px; font-family:'DM Sans',sans-serif;
+  font-weight:400;
+}
+
+/* ── ADD FORM ── */
+.add-form {
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:16px;
+  padding:18px; margin-bottom:14px;
+  display:none;
+}
+.add-form.open { display:block; }
+.form-actions { display:flex; gap:8px; margin-top:14px; }
+
+/* ── PROPERTY CARDS ── */
+.prop-card {
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-left:4px solid var(--border);
+  border-radius:14px;
+  padding:14px 16px; margin-bottom:10px;
+}
+.prop-card.rl-low    { border-left-color:var(--olive); }
+.prop-card.rl-medium { border-left-color:var(--peach); }
+.prop-card.rl-high   { border-left-color:var(--coral); }
+.prop-top {
+  display:flex; justify-content:space-between;
+  align-items:flex-start; gap:10px; margin-bottom:8px;
+}
+.prop-name {
+  font-family:'Playfair Display',serif;
+  font-size:16px; font-weight:700;
+}
+.prop-area { font-size:12px; color:var(--muted); margin-top:1px; }
+.prop-cost { text-align:right; flex-shrink:0; }
+.prop-cost-val {
+  font-family:'Playfair Display',serif;
+  font-size:18px; font-weight:700;
+}
+.prop-cost-lbl { font-size:11px; color:var(--muted); }
+.prop-stats {
+  display:flex; flex-wrap:wrap;
+  gap:4px 16px; margin:8px 0;
+}
+.prop-stat-lbl { font-size:10px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.05em; }
+.prop-stat-val { font-weight:600; font-size:13px; }
+.prop-badges { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.prop-notes { font-size:12px; color:var(--muted); margin-top:8px; }
+.prop-actions { display:flex; gap:6px; margin-top:10px; }
+
+/* ── COMPARE TABLE ── */
+.cmp-wrap { overflow-x:auto; }
+.cmp-table { width:100%; border-collapse:collapse; font-size:13px; }
+.cmp-table th {
+  text-align:left; padding:9px 12px;
+  font-size:10px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted);
+  border-bottom:2px solid var(--border);
+  white-space:nowrap; background:var(--ibg);
+}
+.cmp-table td {
+  padding:10px 12px;
+  border-bottom:1px solid var(--border);
+  vertical-align:middle;
+}
+.cmp-table tr:last-child td { border-bottom:none; }
+.cmp-table tbody tr:hover td { background:var(--ibg); }
+
+/* ── CALCULATOR ── */
+.calc-results {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:10px; margin-top:14px;
+}
+@media(max-width:600px){ .calc-results { grid-template-columns:1fr 1fr; } }
+
+.crb {
+  background:var(--ibg);
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  padding:12px 14px;
+}
+.crb-lbl {
+  font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.08em;
+  color:var(--muted); margin-bottom:4px;
+}
+.crb-val {
+  font-family:'Playfair Display',serif;
+  font-size:20px; font-weight:700; color:var(--text);
+}
+.verdict {
+  display:inline-block; font-size:11px; font-weight:700;
+  padding:3px 12px; border-radius:20px; margin-top:5px;
+}
+.v-comfortable { background:#EBF0DA; color:var(--olive); }
+.v-manageable  { background:#EDE8F5; color:var(--lav); }
+.v-tight       { background:#FBF0E8; color:var(--peach); }
+.v-risky       { background:#FAE8E4; color:var(--coral); }
+
+/* ── EMPTY ── */
+.empty {
+  text-align:center; padding:40px 20px;
+  color:var(--muted); font-size:13px;
+}
+.empty-icon { font-size:26px; margin-bottom:8px; opacity:.35; }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="app-title">Home Decision OS</div>
+  <div class="app-sub">Calm apartment decision command center.</div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" id="tab-dash"  onclick="showTab('dash')">Dashboard</button>
+  <button class="tab"        id="tab-props" onclick="showTab('props')">Properties</button>
+  <button class="tab"        id="tab-cmp"   onclick="showTab('cmp')">Compare</button>
+  <button class="tab"        id="tab-calc"  onclick="showTab('calc')">Calculator</button>
+</div>
+
+<!-- ════ DASHBOARD ════ -->
+<div class="tab-content active" id="content-dash">
+  <div class="g5" style="margin-bottom:10px;">
+    <div class="stat-block">
+      <div class="stat-lbl">Freedom Fund</div>
+      <input type="text" id="d-fund" placeholder="$0" oninput="saveDash()">
+    </div>
+    <div class="stat-block">
+      <div class="stat-lbl">Safe Rent Range</div>
+      <input type="text" id="d-rent" placeholder="$1,200–$1,500" oninput="saveDash()">
+    </div>
+    <div class="stat-block">
+      <div class="stat-lbl">Best Property</div>
+      <input type="text" id="d-best" placeholder="—" oninput="saveDash()">
+    </div>
+    <div class="stat-block">
+      <div class="stat-lbl">Next Tour</div>
+      <input type="text" id="d-tour" placeholder="—" oninput="saveDash()">
+    </div>
+    <div class="stat-block">
+      <div class="stat-lbl">Biggest Concern</div>
+      <textarea id="d-concern" placeholder="—" oninput="saveDash()"></textarea>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--muted);">All fields save automatically.</p>
+</div>
+
+<!-- ════ PROPERTIES ════ -->
+<div class="tab-content" id="content-props">
+  <div class="sec-head">
+    <div class="sec-title">Properties</div>
+    <button class="btn btn-coral" id="addFormBtn" onclick="toggleAddForm()">+ Add Property</button>
+  </div>
+
+  <!-- Add Form -->
+  <div class="add-form" id="addForm">
+    <div class="sec-rule">Basics</div>
+    <div class="g2">
+      <div class="field"><label>Property Name</label><input type="text" id="f-name" placeholder="Abbey at Spring Town Center"></div>
+      <div class="field"><label>Area</label><input type="text" id="f-area" placeholder="Spring, TX"></div>
+    </div>
+
+    <div class="sec-rule">Monthly Costs</div>
+    <div class="g3">
+      <div class="field"><label>Base Rent ($)</label><input type="number" id="f-rent" placeholder="1295"></div>
+      <div class="field"><label>Utilities ($)</label><input type="number" id="f-util" placeholder="150"></div>
+      <div class="field"><label>Internet ($)</label><input type="number" id="f-net"   placeholder="60"></div>
+    </div>
+    <div class="g3">
+      <div class="field"><label>Pet Rent ($)</label><input type="number" id="f-pet"   placeholder="25"></div>
+      <div class="field"><label>Other Fees ($)</label><input type="number" id="f-fees" placeholder="0"></div>
+      <div class="field"><label>Parking ($)</label><input type="number" id="f-park"   placeholder="0"></div>
+    </div>
+    <div class="g2">
+      <div class="field"><label>Contribution ($)</label><input type="number" id="f-contrib" placeholder="Partner share toward total"></div>
+      <div class="field"><label>Commute</label><input type="text" id="f-commute" placeholder="e.g. 22 min"></div>
+    </div>
+
+    <div class="sec-rule">Details</div>
+    <div class="g2">
+      <div class="field">
+        <label>Tour Status</label>
+        <select id="f-tour">
+          <option value="Not Yet">Not Yet</option>
+          <option value="Interested">Interested</option>
+          <option value="Scheduled">Scheduled</option>
+          <option value="Toured">Toured</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Risk Level</label>
+        <select id="f-risk">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="field">
+        <label>Emotional Feel</label>
+        <select id="f-feel">
+          <option value="Great">Great</option>
+          <option value="Good">Good</option>
+          <option value="Okay">Okay</option>
+          <option value="Uncertain">Uncertain</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Dog Friendly</label>
+        <select id="f-dog">
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+          <option value="Unknown">Unknown</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <textarea id="f-notes" placeholder="Anything worth remembering..."></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-coral" onclick="addProperty()">Save Property</button>
+      <button class="btn btn-ghost" onclick="toggleAddForm()">Cancel</button>
+    </div>
+  </div>
+
+  <div id="propList"></div>
+</div>
+
+<!-- ════ COMPARE ════ -->
+<div class="tab-content" id="content-cmp">
+  <div class="sec-head">
+    <div class="sec-title">Compare</div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <div id="cmpEmpty" class="empty" style="display:none;">
+      <div class="empty-icon">📋</div>Add properties to compare.
+    </div>
+    <div class="cmp-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Real Monthly</th>
+            <th>Your Share</th>
+            <th>Commute</th>
+            <th>Feel</th>
+            <th>Risk</th>
+            <th>Tour</th>
+          </tr>
+        </thead>
+        <tbody id="cmpBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════ CALCULATOR ════ -->
+<div class="tab-content" id="content-calc">
+  <div class="sec-head">
+    <div class="sec-title">Real-Life Apartment Cost Check</div>
+    <button class="btn btn-lav" onclick="calcDefaults()">Use Defaults</button>
+  </div>
+
+  <div class="g2">
+    <!-- Monthly -->
+    <div class="card">
+      <div class="sec-rule" style="margin-top:0;">Monthly</div>
+      <div class="field"><label>Base Rent ($)</label><input type="number" id="c-rent"    placeholder="0"   oninput="calcUpdate()"></div>
+      <div class="field"><label>Utilities ($)</label><input type="number" id="c-util"    placeholder="150" oninput="calcUpdate()"></div>
+      <div class="field"><label>Internet ($)</label><input type="number" id="c-net"      placeholder="60"  oninput="calcUpdate()"></div>
+      <div class="field"><label>Pet Rent ($)</label><input type="number" id="c-pet"      placeholder="25"  oninput="calcUpdate()"></div>
+      <div class="field"><label>Other Fees ($)</label><input type="number" id="c-fees"   placeholder="0"   oninput="calcUpdate()"></div>
+      <div class="field"><label>Parking ($)</label><input type="number" id="c-park"      placeholder="0"   oninput="calcUpdate()"></div>
+      <div class="field"><label>Contribution ($)</label><input type="number" id="c-contrib" placeholder="Partner share" oninput="calcUpdate()"></div>
+    </div>
+
+    <!-- One-Time + Cash -->
+    <div>
+      <div class="card">
+        <div class="sec-rule" style="margin-top:0;">One-Time</div>
+        <div class="field"><label>Deposit ($)</label><input type="number" id="c-dep"       placeholder="0" oninput="calcUpdate()"></div>
+        <div class="field"><label>Application Fee ($)</label><input type="number" id="c-app"   placeholder="0" oninput="calcUpdate()"></div>
+        <div class="field"><label>Admin Fee ($)</label><input type="number" id="c-admin"    placeholder="0" oninput="calcUpdate()"></div>
+        <div class="field"><label>Pet Fee ($)</label><input type="number" id="c-petfee"   placeholder="0" oninput="calcUpdate()"></div>
+        <div class="field"><label>Utility Setup ($)</label><input type="number" id="c-utilsetup" placeholder="0" oninput="calcUpdate()"></div>
+      </div>
+      <div class="card" style="margin-top:10px;">
+        <div class="sec-rule" style="margin-top:0;">Cash Position</div>
+        <div class="field"><label>Available Cash ($)</label><input type="number" id="c-cash" placeholder="0" oninput="calcUpdate()"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="calc-results">
+    <div class="crb">
+      <div class="crb-lbl">Real Monthly</div>
+      <div class="crb-val" id="cr-monthly">—</div>
+    </div>
+    <div class="crb">
+      <div class="crb-lbl">Your Share</div>
+      <div class="crb-val" id="cr-share">—</div>
+    </div>
+    <div class="crb">
+      <div class="crb-lbl">Total Move-In</div>
+      <div class="crb-val" id="cr-movein">—</div>
+    </div>
+    <div class="crb">
+      <div class="crb-lbl">Cash Gap</div>
+      <div class="crb-val" id="cr-gap">—</div>
+      <div id="cr-verdict"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let props = JSON.parse(localStorage.getItem('hdos-props') || '[]');
+let dash  = JSON.parse(localStorage.getItem('hdos-dash')  || '{}');
+
+// ── TABS ──
+function showTab(t) {
+  document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + t).classList.add('active');
+  document.getElementById('content-' + t).classList.add('active');
+  if (t === 'cmp') renderCompare();
+}
+
+// ── DASHBOARD ──
+function saveDash() {
+  ['fund','rent','best','tour','concern'].forEach(k => {
+    const el = document.getElementById('d-' + k);
+    if (el) dash[k] = el.value;
+  });
+  localStorage.setItem('hdos-dash', JSON.stringify(dash));
+}
+
+function loadDash() {
+  ['fund','rent','best','tour','concern'].forEach(k => {
+    const el = document.getElementById('d-' + k);
+    if (el && dash[k] != null) el.value = dash[k];
+  });
+}
+
+// ── PROPERTIES ──
+function toggleAddForm() {
+  const f = document.getElementById('addForm');
+  f.classList.toggle('open');
+  document.getElementById('addFormBtn').textContent = f.classList.contains('open') ? 'Cancel' : '+ Add Property';
+}
+
+function fval(id)  { return (document.getElementById(id) || {}).value || ''; }
+function fnum(id)  { return parseFloat(fval(id)) || 0; }
+
+function addProperty() {
+  const baseRent = fnum('f-rent'), util = fnum('f-util'), net = fnum('f-net'),
+        pet = fnum('f-pet'), fees = fnum('f-fees'), park = fnum('f-park'),
+        contrib = fnum('f-contrib');
+  const realMonthly = baseRent + util + net + pet + fees + park;
+  const yourShare   = Math.max(0, realMonthly - contrib);
+
+  const p = {
+    id: Date.now(),
+    name: fval('f-name') || 'Untitled', area: fval('f-area'),
+    baseRent, util, net, pet, fees, park, contrib,
+    realMonthly, yourShare,
+    commute: fval('f-commute'), tourStatus: fval('f-tour'),
+    emotionalFeel: fval('f-feel'), riskLevel: fval('f-risk'),
+    dogFriendly: fval('f-dog'), notes: fval('f-notes')
+  };
+
+  props.push(p);
+  localStorage.setItem('hdos-props', JSON.stringify(props));
+  renderProps();
+
+  ['f-name','f-area','f-rent','f-util','f-net','f-pet','f-fees','f-park',
+   'f-contrib','f-commute','f-notes'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  ['f-tour','f-risk','f-feel','f-dog'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.selectedIndex = 0;
+  });
+  toggleAddForm();
+}
+
+function deleteProperty(id) {
+  props = props.filter(p => p.id !== id);
+  localStorage.setItem('hdos-props', JSON.stringify(props));
+  renderProps();
+}
+
+function tourBadge(s) {
+  const map = {
+    'Scheduled':  'b-olive',  'Toured':     'b-lav',
+    'Interested': 'b-peach',  'Not Yet':    'b-muted'
+  };
+  return '<span class="badge ' + (map[s] || 'b-muted') + '">' + (s || '—') + '</span>';
+}
+
+function riskBadge(r) {
+  const map = { 'Low':'b-olive', 'Medium':'b-peach', 'High':'b-coral' };
+  return r ? '<span class="badge ' + (map[r] || 'b-muted') + '">' + r + ' Risk</span>' : '';
+}
+
+function dogBadge(d) {
+  if (d === 'Yes')     return '<span class="badge b-olive">Dog OK</span>';
+  if (d === 'No')      return '<span class="badge b-coral">No Dogs</span>';
+  if (d === 'Unknown') return '<span class="badge b-muted">Dog?</span>';
+  return '';
+}
+
+function feelBadge(f) {
+  const map = { 'Great':'b-olive','Good':'b-olive','Okay':'b-muted','Uncertain':'b-peach','No':'b-coral' };
+  return f ? '<span class="badge ' + (map[f] || 'b-muted') + '">' + f + '</span>' : '';
+}
+
+function renderProps() {
+  const el = document.getElementById('propList');
+  if (!props.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🏠</div>No properties yet. Add one above.</div>';
+    return;
+  }
+  el.innerHTML = props.map(p => {
+    const rc = p.riskLevel === 'Low' ? 'rl-low' : p.riskLevel === 'High' ? 'rl-high' : 'rl-medium';
+    return '<div class="prop-card ' + rc + '">'
+      + '<div class="prop-top">'
+        + '<div><div class="prop-name">' + p.name + '</div>'
+        + (p.area ? '<div class="prop-area">' + p.area + '</div>' : '') + '</div>'
+        + '<div class="prop-cost">'
+          + '<div class="prop-cost-val">$' + p.realMonthly.toLocaleString() + '</div>'
+          + '<div class="prop-cost-lbl">real monthly</div>'
+        + '</div>'
+      + '</div>'
+      + '<div class="prop-stats">'
+        + '<div><div class="prop-stat-lbl">Your Share</div><div class="prop-stat-val">$' + p.yourShare.toLocaleString() + '</div></div>'
+        + (p.commute ? '<div><div class="prop-stat-lbl">Commute</div><div class="prop-stat-val">' + p.commute + '</div></div>' : '')
+        + (p.emotionalFeel ? '<div><div class="prop-stat-lbl">Feel</div><div class="prop-stat-val">' + p.emotionalFeel + '</div></div>' : '')
+      + '</div>'
+      + '<div class="prop-badges">'
+        + tourBadge(p.tourStatus) + ' ' + riskBadge(p.riskLevel) + ' ' + dogBadge(p.dogFriendly) + ' ' + feelBadge(p.emotionalFeel)
+      + '</div>'
+      + (p.notes ? '<div class="prop-notes">' + p.notes + '</div>' : '')
+      + '<div class="prop-actions">'
+        + '<button class="btn btn-ghost" style="font-size:12px;padding:5px 12px;" onclick="deleteProperty(' + p.id + ')">Remove</button>'
+      + '</div>'
+    + '</div>';
+  }).join('');
+}
+
+// ── COMPARE ──
+function renderCompare() {
+  const tbody = document.getElementById('cmpBody');
+  const empty = document.getElementById('cmpEmpty');
+  if (!props.length) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  const riskColor = { Low: 'var(--olive)', Medium: 'var(--peach)', High: 'var(--coral)' };
+  const tourColor = { Scheduled: 'var(--olive)', Toured: 'var(--lav)', Interested: 'var(--peach)', 'Not Yet': 'var(--muted)' };
+  tbody.innerHTML = props.map(p =>
+    '<tr>'
+    + '<td><strong>' + p.name + '</strong>' + (p.area ? '<br><span style="font-size:11px;color:var(--muted);">' + p.area + '</span>' : '') + '</td>'
+    + '<td><strong>$' + p.realMonthly.toLocaleString() + '</strong></td>'
+    + '<td>$' + p.yourShare.toLocaleString() + '</td>'
+    + '<td>' + (p.commute || '—') + '</td>'
+    + '<td>' + (p.emotionalFeel || '—') + '</td>'
+    + '<td style="color:' + (riskColor[p.riskLevel] || 'var(--muted)') + ';font-weight:600;">' + (p.riskLevel || '—') + '</td>'
+    + '<td style="color:' + (tourColor[p.tourStatus] || 'var(--muted)') + ';font-weight:600;">' + (p.tourStatus || '—') + '</td>'
+    + '</tr>'
+  ).join('');
+}
+
+// ── CALCULATOR ──
+function calcDefaults() {
+  const d = { 'c-util': 150, 'c-net': 60, 'c-pet': 25 };
+  Object.entries(d).forEach(([id, v]) => {
+    const el = document.getElementById(id); if (el) el.value = v;
+  });
+  calcUpdate();
+}
+
+function calcUpdate() {
+  const n = id => parseFloat((document.getElementById(id) || {}).value) || 0;
+  const rent = n('c-rent'), util = n('c-util'), net = n('c-net'), pet = n('c-pet'),
+        fees = n('c-fees'), park = n('c-park'), contrib = n('c-contrib'), cash = n('c-cash');
+  const dep = n('c-dep'), app = n('c-app'), admin = n('c-admin'),
+        petfee = n('c-petfee'), utilsetup = n('c-utilsetup');
+
+  const realMonthly = rent + util + net + pet + fees + park;
+  const yourShare   = Math.max(0, realMonthly - contrib);
+  const moveIn      = rent + dep + app + admin + petfee + utilsetup;
+  const gap         = moveIn - cash;
+
+  const mon = id => document.getElementById(id);
+  mon('cr-monthly').textContent = rent ? '$' + realMonthly.toLocaleString() : '—';
+  mon('cr-share').textContent   = rent ? '$' + yourShare.toLocaleString()   : '—';
+  mon('cr-movein').textContent  = moveIn ? '$' + moveIn.toLocaleString()    : '—';
+
+  if (!rent) { mon('cr-gap').textContent = '—'; mon('cr-verdict').innerHTML = ''; return; }
+
+  mon('cr-gap').textContent = gap > 0 ? '$' + gap.toLocaleString() + ' short' : 'Covered';
+  mon('cr-gap').style.color = gap > 0 ? 'var(--coral)' : 'var(--olive)';
+
+  let vcls, vlbl;
+  if      (realMonthly <= 1300) { vcls = 'comfortable'; vlbl = 'Comfortable'; }
+  else if (realMonthly <= 1500) { vcls = 'manageable';  vlbl = 'Manageable';  }
+  else if (realMonthly <= 1650) { vcls = 'tight';       vlbl = 'Tight';       }
+  else                          { vcls = 'risky';        vlbl = 'High Financial Risk'; }
+
+  mon('cr-verdict').innerHTML = '<span class="verdict v-' + vcls + '">' + vlbl + '</span>';
+}
+
+// ── INIT ──
+loadDash();
+renderProps();
+</script>
+</body>
+</html>
